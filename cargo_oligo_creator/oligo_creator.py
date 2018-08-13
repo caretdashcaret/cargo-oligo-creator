@@ -1,6 +1,5 @@
 from Bio.Seq import Seq
 from .oligo import Oligo
-from .split_guides_finder import SplitGuidesFinder
 
 class OligoCreator:
     # The BsaI constructs sit inbetween the 2nd part of the n-th gRNA and the 1st part of the n+1th gRNA
@@ -14,21 +13,42 @@ class OligoCreator:
     # 3' ---     ACTCTGG|CT|CCAGAGTNNNN --- 5'
 
     BSAI_CONSTRUCT_FORWARD = Seq("T") + Seq("GAGACC") + Seq("GA") + Seq("GGTCTC") + Seq("A")
-    BSAI_CONSTRUCT_REVERSE = Seq("A") + Seq("CTCTGG") + Seq("CT") + Seq("CCAGAG") + Seq("T")
+    BSAI_CONSTRUCT_REVERSE = BSAI_CONSTRUCT_FORWARD.reverse_complement()
 
     FORWARD_START = Seq("CACC")
     REVERSE_START = Seq("AAAC")
 
-    def __init__(self, guides):
-        self.guides = guides
+    def __init__(self, split_guides):
+        self.split_guides = split_guides
 
     def create_oligos(self):
-        found_split_guides = SplitGuidesFinder(self.guides).find_split_guides()
-
-        if len(found_split_guides) == 0:
+        if len(self.split_guides) == 0:
             return []
         else:
-            return self._join_to_form_oligos(found_split_guides)
+            return self._join_to_form_oligos(self.split_guides)
+
+    def _create_forward_and_reverse_oligos(self, split_guide_a, split_guide_b):
+        forward_oligo = self._create_forward_oligo(split_guide_a, split_guide_b)
+        reverse_oligo = self._create_reverse_oligo(split_guide_a, split_guide_b)
+        return [forward_oligo, reverse_oligo]
+
+    def _create_forward_oligo(self, split_guide_a, split_guide_b):
+        return Oligo(
+            is_forward = True,
+            overlap = split_guide_b.overlap,
+            start = self.FORWARD_START,
+            pre_construct_piece = split_guide_a.first_part,
+            construct = self.BSAI_CONSTRUCT_FORWARD,
+            post_construct_piece = split_guide_b.second_part)
+
+    def _create_reverse_oligo(self, split_guide_a, split_guide_b):
+        return Oligo(
+            is_forward = False,
+            overlap = split_guide_b.overlap.reverse_complement(),
+            start = self.REVERSE_START,
+            pre_construct_piece = split_guide_b.second_part.reverse_complement(),
+            construct = self.BSAI_CONSTRUCT_REVERSE,
+            post_construct_piece = split_guide_a.first_part.reverse_complement())
 
     def _join_to_form_oligos(self, split_guides):
         oligos = []

@@ -1,6 +1,6 @@
 import argparse
 
-from cargo_oligo_creator import guide, oligo_creator
+from cargo_oligo_creator import guide, oligo_creator, split_guides_finder
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -8,7 +8,8 @@ def get_args():
     return parser.parse_args()
 
 def main(args):
-    creator = oligo_creator.OligoCreator([guide.Guide(x) for x in args.input])
+    split_guides = split_guides_finder.SplitGuidesFinder([guide.Guide(x) for x in args.input])
+    creator = oligo_creator.OligoCreator(split_guides)
     oligos = creator.create_oligos()
     for oligo in oligos:
         print(oligo)
