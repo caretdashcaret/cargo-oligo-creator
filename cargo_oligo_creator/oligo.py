@@ -19,21 +19,21 @@ class Oligo(object):
 
     def display_formatted(self):
         return "{} oligo with overlap {}: {}".format(
-            self._direction(),
+            self.direction(),
             self.overlap,
             self.formatted_sequence())
 
     def display_raw(self):
         return "{} oligo with overlap {}: {}".format(
-            self._direction(),
+            self.direction(),
             self.overlap,
             self.raw_sequence())
 
-    def _direction(self):
+    def direction(self):
         if self.is_forward:
-            return "Forward"
+            return "forward"
         else:
-            return "Reverse"
+            return "reverse"
 
     def __repr__(self):
         return self.display_formatted()

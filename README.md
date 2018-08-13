@@ -26,6 +26,8 @@ $ pip3 install -r requirements.txt
 
 To run, pass in your guides (gRNA) as the the input `-i`.
 
+Note: Your guide must be longer than 18bp.
+
 Example:
 
 ```shell
@@ -40,6 +42,15 @@ Example:
 
 ```shell
 $ python3 run.py -r -i GGGCGAGGAGCTGTTCACCG GCTGCACGCCGTAGGTCAGGG GGTGAACCGCATCGAGCTGA GGTGTTCTGCTGGTAGTGGT
+```
+
+If you want to save the sequences to Genbank files, pass in a location to `-g`.
+
+Example:
+
+
+```shell
+$ python3 run.py -g ~/Documents/oligos -i GGGCGAGGAGCTGTTCACCG GCTGCACGCCGTAGGTCAGGG GGTGAACCGCATCGAGCTGA GGTGTTCTGCTGGTAGTGGT
 ```
 
 ### Tests

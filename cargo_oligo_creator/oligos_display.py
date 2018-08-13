@@ -8,7 +8,7 @@ class OligosDisplay:
         self.post_construct_guide_index = post_construct_guide_index
 
     def name(self):
-        return "Oligos for [start piece of guide {}] to [end piece of guide {}]".format(
+        return "oligos for [start piece of guide {}] to [end piece of guide {}]".format(
             self.pre_construct_guide_index,
             self.post_construct_guide_index
         )
