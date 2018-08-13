@@ -8,11 +8,13 @@ def get_args():
     return parser.parse_args()
 
 def main(args):
-    split_guides = split_guides_finder.SplitGuidesFinder([guide.Guide(x) for x in args.input])
+    split_guides = split_guides_finder.SplitGuidesFinder([guide.Guide(x) for x in args.input]).find_split_guides()
     creator = oligo_creator.OligoCreator(split_guides)
-    oligos = creator.create_oligos()
-    for oligo in oligos:
-        print(oligo)
+    displays = creator.create_oligos()
+    for display in displays:
+        print(display.name())
+        print(display.forward_oligo)
+        print(display.reverse_oligo)
 
 args = get_args()
 

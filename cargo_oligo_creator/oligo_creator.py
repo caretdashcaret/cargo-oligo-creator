@@ -1,5 +1,6 @@
 from Bio.Seq import Seq
 from .oligo import Oligo
+from .oligos_display import OligosDisplay
 
 class OligoCreator:
     # The BsaI constructs sit inbetween the 2nd part of the n-th gRNA and the 1st part of the n+1th gRNA
@@ -54,34 +55,24 @@ class OligoCreator:
         oligos = []
         index = 0
         while index < len(split_guides):
-            current = split_guides[index]
-            if not self._is_first_guide(index):
-                previous = split_guides[index-1]
-                forward_oligo = Oligo(
-                    is_forward = True,
-                    overlap = current.overlap,
-                    guide_end = index - 1,
-                    guide_start = index,
-                    start = self.FORWARD_START,
-                    pre_construct_piece = previous.second_part,
-                    construct = self.BSAI_CONSTRUCT_FORWARD,
-                    post_construct_piece = current.first_part,
-                )
-                reverse_oligo = Oligo(
-                    is_forward = False,
-                    overlap = previous.second_part[-4:],
-                    guide_end = index - 1,
-                    guide_start = index,
-                    start = self.REVERSE_START,
-                    pre_construct_piece = current.first_part.reverse_complement(),
-                    construct = self.BSAI_CONSTRUCT_REVERSE,
-                    post_construct_piece = previous.second_part.reverse_complement()
-                )
-                oligos.append(forward_oligo)
-                oligos.append(reverse_oligo)
+            post_construct_guide_index = self._get_index_of_post_construct_guide(index)
+            forward_oligo, reverse_oligo = self._create_forward_and_reverse_oligos(self.split_guides[0],
+                                                                                   self.split_guides[post_construct_guide_index])
+            oligos.append(OligosDisplay(
+                forward_oligo = forward_oligo,
+                reverse_oligo = reverse_oligo,
+                pre_construct_guide_index = index,
+                post_construct_guide_index = post_construct_guide_index))
+
             index += 1
         return oligos
 
-
     def _is_first_guide(self, guide_index):
         return guide_index == 0
+
+    def _get_index_of_post_construct_guide(self, index):
+        # if it's the 1st guide, the part after BSAI should come from the last guide
+        if index == 0:
+            return len(self.split_guides) - 1
+        else:
+            return index - 1

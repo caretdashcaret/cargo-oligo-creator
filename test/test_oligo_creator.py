@@ -5,21 +5,19 @@ from cargo_oligo_creator import split_guide, oligo_creator
 
 class TestOligoCreator:
 
-    # def test_create_oligos(self):
-    #     test_split_guides = [split_guide.SplitGuide("TGTTCACCG", "GCTGCACGCCGTAGG", "GCTG")]
-    #     results = oligo_creator.OligoCreator(test_split_guides).create_oligos()
+    def test_create_oligos(self):
+        test_split_guides = [split_guide.SplitGuide(Seq("GGGCGAGGAGCTGTT"), Seq("TGTTCACCG"), Seq("TGTT")),
+                             split_guide.SplitGuide(Seq("GCTGCACGCCGTAGG"), Seq("TAGGTCAGGG"), Seq("TAGG")),
+                             split_guide.SplitGuide(Seq("GGTGAACCGCATCG"), Seq("ATCGAGCTGA"), Seq("ATCG"))]
 
-    # #     class SplitGuide:
-
-    # # def __init__(self, first_part, second_part, overlap):
-    # #     self.first_part = first_part
-    # #     self.second_part = second_part
-    # #     self.overlap = overlap
+        results = oligo_creator.OligoCreator(test_split_guides).create_oligos()
 
 
-    #     assert(len(results) == 2)
-    #     assert(str(results[0]) == "Forward oligo for [end of guide 0] to [start of guide 1] with overlap TAGG: CACC|TGTTCACCG|TGAGACCGAGGTCTCA|GCTGCACGCCGTAGG")
-    #     assert(str(results[1]) == "Reverse oligo for [end of guide 0] to [start of guide 1] with overlap ACCG: AAAC|CCTACGGCGTGCAGC|ACTCTGGCTCCAGAGT|CGGTGAACA")
+        assert(len(results) == 3)
+        assert(str(results[0].name()) == "Oligos for [start piece of guide 0] to [end piece of guide 2]")
+        assert(str(results[1].name()) == "Oligos for [start piece of guide 1] to [end piece of guide 0]")
+        assert(str(results[2].name()) == "Oligos for [start piece of guide 2] to [end piece of guide 1]")
+        assert(str(results[0].forward_oligo) == "Forward oligo with overlap ATCG: CACC|GGGCGAGGAGCTGTT|TGAGACCGAGGTCTCA|ATCGAGCTGA")
 
     def test_create_forward_and_reverse_oligos(self):
         test_split_guide_a = split_guide.SplitGuide(Seq("AAAA"), Seq("GCTGAAAAA"), Seq("GCTG"))
