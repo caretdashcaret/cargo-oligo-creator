@@ -56,7 +56,7 @@ class OligoCreator:
         index = 0
         while index < len(split_guides):
             post_construct_guide_index = self._get_index_of_post_construct_guide(index)
-            forward_oligo, reverse_oligo = self._create_forward_and_reverse_oligos(self.split_guides[0],
+            forward_oligo, reverse_oligo = self._create_forward_and_reverse_oligos(self.split_guides[index],
                                                                                    self.split_guides[post_construct_guide_index])
             oligos.append(OligosDisplay(
                 forward_oligo = forward_oligo,

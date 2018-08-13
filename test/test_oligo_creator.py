@@ -18,6 +18,9 @@ class TestOligoCreator:
         assert(str(results[1].name()) == "oligos for [start piece of guide 1] to [end piece of guide 0]")
         assert(str(results[2].name()) == "oligos for [start piece of guide 2] to [end piece of guide 1]")
         assert(str(results[0].forward_oligo) == "forward oligo with overlap ATCG: CACC|GGGCGAGGAGCTGTT|TGAGACCGAGGTCTCA|ATCGAGCTGA")
+        assert(str(results[1].forward_oligo) == "forward oligo with overlap TGTT: CACC|GCTGCACGCCGTAGG|TGAGACCGAGGTCTCA|TGTTCACCG")
+        assert(str(results[2].forward_oligo) == "forward oligo with overlap TAGG: CACC|GGTGAACCGCATCG|TGAGACCGAGGTCTCA|TAGGTCAGGG")
+
 
     def test_create_forward_and_reverse_oligos(self):
         test_split_guide_a = split_guide.SplitGuide(Seq("AAAA"), Seq("GCTGAAAAA"), Seq("GCTG"))
