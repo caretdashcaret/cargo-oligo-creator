@@ -4,7 +4,8 @@ from cargo_oligo_creator import guide, oligo_creator, split_guides_finder
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input', nargs="+", type=str, help="Sequences of gRNAs")
+    parser.add_argument("-i", "--input", nargs="+", type=str, help="Sequences of gRNAs")
+    parser.add_argument("-r", "--raw", action="store_true")
     return parser.parse_args()
 
 def main(args):
@@ -13,8 +14,12 @@ def main(args):
     displays = creator.create_oligos()
     for display in displays:
         print(display.name())
-        print(display.forward_oligo)
-        print(display.reverse_oligo)
+        if args.raw:
+            print(display.forward_oligo.display_raw())
+            print(display.reverse_oligo.display_raw())
+        else:
+            print(display.forward_oligo.display_formatted())
+            print(display.reverse_oligo.display_formatted())
 
 args = get_args()
 

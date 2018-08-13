@@ -22,3 +22,10 @@ class TestSplitGuidesFinder:
         third_split_guide = [results[2].first_part, results[2].second_part, results[2].overlap]
         expected_third_split_guide = [Seq("GGTGAACCGCATCG"), Seq("ATCGAGCTGA"), Seq("ATCG")]
         assert(third_split_guide == expected_third_split_guide)
+
+    def test_no_possible_result(self):
+        sequences = ["A" * 20, "T" * 20]
+        test_guides = [guide.Guide(x) for x in sequences]
+        results = split_guides_finder.SplitGuidesFinder(test_guides).find_split_guides()
+
+        assert(len(results) == 0)

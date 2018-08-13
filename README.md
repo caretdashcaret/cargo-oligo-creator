@@ -32,6 +32,16 @@ Example:
 $ python3 run.py -i GGGCGAGGAGCTGTTCACCG GCTGCACGCCGTAGGTCAGGG GGTGAACCGCATCGAGCTGA GGTGTTCTGCTGGTAGTGGT
 ```
 
+Results will be printed to standard out.
+
+If you don't want the `|` separator and instead want the raw sequence, you can pass in `-r`.
+
+Example:
+
+```shell
+$ python3 run.py -r -i GGGCGAGGAGCTGTTCACCG GCTGCACGCCGTAGGTCAGGG GGTGAACCGCATCGAGCTGA GGTGTTCTGCTGGTAGTGGT
+```
+
 ### Tests
 
 To run tests:

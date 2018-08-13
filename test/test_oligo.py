@@ -15,7 +15,10 @@ class TestOligo:
             post_construct_piece = Seq("GGGGG")
         )
 
+        assert(test_oligo.raw_sequence() == "TATCGGGGCCCCGGGGG")
         assert(test_oligo.formatted_sequence() == "TATC|GGGG|CCCC|GGGGG")
+        assert(test_oligo.display_formatted() == "Forward oligo with overlap AAAA: TATC|GGGG|CCCC|GGGGG")
+        assert(test_oligo.display_raw() == "Forward oligo with overlap AAAA: TATCGGGGCCCCGGGGG")
         assert(str(test_oligo) == "Forward oligo with overlap AAAA: TATC|GGGG|CCCC|GGGGG")
 
     def test_create_reverse_oligo(self):
@@ -28,5 +31,8 @@ class TestOligo:
             post_construct_piece = Seq("GGGGG")
         )
 
+        assert(test_oligo.raw_sequence() == "TATCGGGGCCCCGGGGG")
         assert(test_oligo.formatted_sequence() == "TATC|GGGG|CCCC|GGGGG")
+        assert(test_oligo.display_formatted() == "Reverse oligo with overlap AAAA: TATC|GGGG|CCCC|GGGGG")
+        assert(test_oligo.display_raw() == "Reverse oligo with overlap AAAA: TATCGGGGCCCCGGGGG")
         assert(str(test_oligo) == "Reverse oligo with overlap AAAA: TATC|GGGG|CCCC|GGGGG")
